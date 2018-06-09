@@ -1,0 +1,151 @@
+{extend name="wap/default_new/base" /}
+{block name="resources"}
+<link type="text/css" rel="stylesheet" href="__TEMP__/{$style}/public/css/distribution.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/member_index.css">
+<style>
+.money-detail li {
+    line-height: 22px;
+	font-size:14px;
+}
+.money-detail .money {
+    font-size: 14px;
+}
+.panel.memberhead{
+	margin-top: 44px;
+}
+.panel.memberhead .member_head{
+	padding-bottom: 10px;
+}
+.panel.memberhead .member_foot{
+	width: 100%;
+	height: 50px;
+	background: rgba(255,255,255,0.15);
+	padding: 8px 0;
+}
+.member_foot .info-content-top span{
+	display:inline-block;
+	width:32.5%;
+	color:#fff;
+	text-align:center;
+	height:25px;
+	line-height:25px;
+}
+.member_foot .info-content-bottom span{
+	display:inline-block;
+	width:32%;
+	color:#fff;
+	text-align:center;
+	font-size:17px;
+}
+</style>
+{/block} 
+{block name="goodsHead"}
+<section class="head">
+	<a class="head_back" href="{:__URL('APP_MAIN/member/index','shop_id='.$shop_id)}"><i class="icon-back"></i></a>
+	<div class="head-title">推广中心</div>
+</section>
+{/block}
+
+{block name="main"}
+<div class="panel memberhead">
+	<div class="member_head">
+		<a href="{:__URL('APP_MAIN/Distribution/userAccountRecordsList','shop_id='.$shop_id)}">
+			<p style="margin: 20px 0 10px 0;position:relative;">
+				<i class="face_img">
+				{eq name="member_img" value="0"}
+					<img src="__TEMP__/{$style}/public/images/member_default.png" />
+				{else/}
+					<img src="__UPLOAD__/{$member_img}"  onerror="this.src='__TEMP__/{$style}/public/images/member_default.png'"/>
+				{/eq}
+				</i>
+				<span class="account_management">佣金明细<i class="data-go"></i></span>
+			</p>
+		</a>
+		<p class="info-content-top">
+			<span>{:lang('member_balance')}</span>
+			<span>{$member_info["user_info"]['nick_name']}</span>
+			<span>{:lang('goods_integral')}</span>
+		</p>
+		<p class="info-content-bottom">
+			<a href="{:__URL('APP_MAIN/member/balancewater?shop_id='.$shop_id)}"><span>{$member_info['balance']}</span></a>
+			<span><mark class="level"><img src="__TEMP__/{$style}/public/images/store_promote_vip.png" style="height: 13px;margin-top: 11px;" />{$promoter_info["promoter_level_info"]["level_name"]}</mark></span>
+			<a href="{:__URL('APP_MAIN/member/integralwater?shop_id='.$shop_id)}"><span>{$member_info['point']}</span></a>
+		</p>
+	</div>
+	<div class="member_foot">
+		<p class="info-content-top">
+			<span>总佣金</span>
+			<span style="font-size: 14px;">待审核金额</span>
+			<span>已提现</span>
+		</p>
+		<p class="info-content-bottom">
+			<span>￥{if $promoter_info["commission"]["commission"] neq ''}{$promoter_info["commission"]["commission"]}{else/}0.00{/if}</span>
+			<span>￥{if $promoter_info["commission"]["commission_locked"] neq ''}{$promoter_info["commission"]["commission_locked"]}{else/}0.00{/if}</span>
+			<span>￥{if $promoter_info["commission"]["commission_withdraw"] neq ''}{$promoter_info["commission"]["commission_withdraw"]}{else/}0.00{/if}</span>
+		</p>
+	</div>
+</div>
+	<hr class="segmentation-line">
+	<div class="personal-menu">
+		<ul>
+			{foreach name="store_menu" item="menu"}
+			<li>
+				<a href="{$menu.href}">
+					<img src="__TEMP__/{$style}/public/images/{$menu.src}"/>
+					<h5>{$menu.title}</h5>
+					<span>{$menu.value}</span>
+				</a>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	
+	<h1 class="store-personal-title" style="border-left: none;margin-top: 10px;"><i class="data-yongjin"></i>佣金统计</h1>
+	<hr class="segmentation-line">
+	<div class="store-commission-statistics">
+		<ul>
+			<li>
+				<a href="{:__URL('APP_MAIN/distribution/userAccountRecordsDetail','shop_id='.$shop_id.'&type_id=1')}">
+					<strong>￥{$promoter_info["commission"]["commission_promoter"]}</strong>
+					<span>分销佣金</span>
+				</a>
+			</li>
+			{if condition ="$shop_config['is_regional_agent'] > 0"}
+				<li>
+					<a href="{:__URL('APP_MAIN/distribution/userAccountRecordsDetail','shop_id='.$shop_id.'&type_id=2')}">
+						<strong>￥{$promoter_info["commission"]["commission_region_agent"]}</strong>
+						<span>区域代理佣金</span>
+					</a>
+				</li>
+			{/if}
+	<!-- 		<li>
+				<a href="{:__URL('APP_MAIN/distribution/userAccountRecordsDetail','shop_id='.$shop_id.'&type_id=3')}">
+					<strong>￥{$promoter_info["commission"]["commission_channelagent"]}</strong>
+					<span>渠道代理分红</span>
+				</a>
+			</li>
+<!-- 			<li>
+<!-- 				<strong>￥{$promoter_info["commission"]["commission_promoter_team"]}</strong> -->
+<!-- 				<span>团队分红</span> -->
+<!-- 			</li> -->
+			{if condition ="$shop_config['is_partner_enable'] > 0"}
+			<li>
+				<a href="{:__URL('APP_MAIN/distribution/userAccountRecordsDetail','shop_id='.$shop_id.'&type_id=4')}">
+					<strong>￥{$promoter_info["commission"]["commission_partner"]}</strong>
+					<span>股东分红</span>
+				</a>
+			</li>
+				{if condition ="$shop_config['is_global_enable'] > 0"}
+					<li>
+						<a href="{:__URL('APP_MAIN/distribution/userAccountRecordsDetail','shop_id='.$shop_id.'&type_id=5')}">
+							<strong>￥{$promoter_info["commission"]["commission_partner_global"]}</strong>
+							<span>全球分红</span>
+						</a>
+					</li>
+				{/if}
+			{/if}
+		</ul>
+	</div>
+	{include file="wap/default_new/controlCopyRight"}
+ {/block}
+{block name="bottom"}{/block}

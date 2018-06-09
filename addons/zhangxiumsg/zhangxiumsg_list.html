@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>商品名称</td>
+        <td>分类名称</td>
+        <td>品牌名称</td>
+        <td>价格</td>
+    </tr>
+    <?php foreach($data['data']['list'] as $val){ ?>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td><?php echo $val['product_name']; ?></td>
+        <td><?php echo $val['cat_name']; ?></td>
+        <td><?php echo $val['brand_name']; ?></td>
+        <td><?php echo $val['whole_price']; ?></td>
+    </tr>
+    <?php } ?>
+    <span>上一页</span>
+    <span>下一页</span>
+</table>
+</body>
+</html>
