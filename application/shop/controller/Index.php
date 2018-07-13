@@ -47,7 +47,7 @@ class Index extends BaseController
      */
     public function index()
     {
-        hook('zhangxiuyunOneSku',[]);
+        //hook('zhangxiuyunOneSku',[]);
         $default_client = request()->cookie("default_client", "");
         $web_info = $this->web_site->getWebSiteInfo();
         if ($default_client == "shop") {
